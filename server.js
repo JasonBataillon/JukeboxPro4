@@ -2,13 +2,14 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
+require('dotenv').config();
+
+app.use(require('morgan')('dev'));
 app.use(express.json());
 
-// Logging middleware
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.originalUrl}`);
-  next();
-});
+app.use(require('./api/auth').router);
+app.use('/playlists', require('./api/playlists'));
+app.use('/tracks', require('./api/tracks'));
 
 // 404
 app.use((req, res, next) => {
