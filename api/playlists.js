@@ -43,11 +43,11 @@ router.post('/', authenticate, async (req, res, next) => {
 
 router.get('/:id', authenticate, async (req, res, next) => {
   const { id } = req.params;
-  const includetracks = req.user ? { where: { userId: req.user.id } } : false;
+  const getTracks = req.user ? { where: { userId: req.user.id } } : false;
   try {
     const playlist = await prisma.playlist.findUniqueOrThrow({
       where: { id: +id },
-      include: { tracks: includetracks },
+      include: { tracks: getTracks },
     });
 
     if (playlist.ownerId !== req.user.id) {
