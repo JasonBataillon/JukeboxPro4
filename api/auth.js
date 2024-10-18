@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 function createToken(id) {
-  return jwt.sign({ id }, JWT_SECRET, { expiresIn: '3hr' });
+  return jwt.sign({ id }, JWT_SECRET, { expiresIn: '1d' });
 }
 
 const prisma = require('../prisma');

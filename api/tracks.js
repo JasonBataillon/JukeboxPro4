@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
-  const getPlaylist = req.user ? { where: { userId: req.user.id } } : false;
+  const getPlaylist = req.user ? { where: { ownerId: req.user.id } } : false;
   try {
     const track = await prisma.track.findUniqueOrThrow({
       where: { id: +id },
