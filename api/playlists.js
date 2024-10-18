@@ -9,6 +9,7 @@ router.get('/', authenticate, async (req, res, next) => {
   try {
     const playlists = await prisma.playlist.findMany({
       where: { ownerId: req.user.id },
+      include: { tracks: true },
     });
     res.json(playlists);
   } catch (e) {
@@ -19,6 +20,13 @@ router.get('/', authenticate, async (req, res, next) => {
 router.post('/', authenticate, async (req, res, next) => {
   const { name, description, trackIds } = req.body;
 
+  if (!trackIds) {
+    return next({
+      status: 400,
+      message: "Couln't find tracks.",
+    });
+  }
+
   if (!name || !description) {
     return next({
       status: 400,
@@ -26,13 +34,14 @@ router.post('/', authenticate, async (req, res, next) => {
     });
   }
   try {
-    const track = trackIds.map((id) => ({ id: +id }));
+    const track = trackIds.map((id) => ({ id }));
+    console.log(track);
     const playlist = await prisma.playlist.create({
       data: {
         name,
         description,
         ownerId: req.user.id,
-        track: { connect: track },
+        tracks: { connect: track },
       },
     });
     res.status(201).json(playlist);

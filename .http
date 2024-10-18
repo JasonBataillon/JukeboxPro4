@@ -25,7 +25,7 @@ GET {{host}}/playlists
 Authorization: Bearer {{token}}
 
 ### Get specific playlist
-GET {{host}}/playlists
+POST {{host}}/playlists
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -34,6 +34,10 @@ Content-Type: application/json
     "description": "A great description",
     "trackIds": [1,2,3]
 }
+
+### Get specific playlist
+GET {{host}}/playlists
+Authorization: Bearer {{token}}
 
 ### Get all the tracks
 GET {{host}}/tracks
