@@ -26,9 +26,9 @@ router.use(async (req, res, next) => {
 });
 
 router.post('/register', async (req, res, next) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
   try {
-    const user = await prisma.user.register(email, password);
+    const user = await prisma.user.register(username, password);
     const token = createToken(user.id);
     res.status(201).json({ token });
   } catch (e) {
@@ -37,9 +37,9 @@ router.post('/register', async (req, res, next) => {
 });
 
 router.post('/login', async (req, res, next) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
   try {
-    const user = await prisma.user.login(email, password);
+    const user = await prisma.user.login(username, password);
     const token = createToken(user.id);
     res.json({ token });
   } catch (e) {
